@@ -11,20 +11,20 @@
   </head>
  <body onload="load_data();">  <!-- Récupération des données avec le chargement de la page -->
 
-  <h1>Mes lieux insolites à la Croix-Rousse</h1>
+  <h1>Températures en france</h1>
  
   <!-- Zone pour l'insertion de la carte OSM via Leaflet -->
   <div id="map"></div>  
   <p/>
   <!-- Zone pour l'affichage dynamique des descriptions -->
   <p id="description"></p>
-<p>请选择日期： <input type="date"></p>
+<p>date： <input type="date"></p>
  </body>
 </html>
 
 <script>
 // Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
-var map = L.map('map').setView([45.775,4.83], 14);
+var map = L.map('map').setView([47.0824,2.3985], 5);
 // Ajout d'une couche de dalles OpenStreetMap
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
