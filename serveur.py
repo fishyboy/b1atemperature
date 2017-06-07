@@ -42,6 +42,9 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     elif self.path_info[0] == "service":
       self.send_html('<p>Path info : <code>{}</p><p>Chaîne de requête : <code>{}</code></p>' \
           .format('/'.join(self.path_info),self.query_string));
+                     
+    elif self.path_info[0] == 'time':
+      self.send_time()
 
     else:
       self.send_static()
