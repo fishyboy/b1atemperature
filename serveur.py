@@ -9,7 +9,6 @@ import json
 from Chercher_les_donnees import *
 
 cordn=coordonnees()
-print(cordn)
 # définition du handler
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
@@ -27,7 +26,11 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     if self.path_info[0] == "location":
       data=cordn
       self.send_json(data)
-
+      
+#    envoie la date
+    elif self.path_info[0] == "toctoc":
+      self.send_html('<p>Bonjour {} {}</p>'.format(self.params['date_debut'][0],self.params['date_fin'][0]))
+      
     # requete description - retourne la description du lieu dont on passe l'id en paramètre dans l'URL
     elif self.path_info[0] == "description":
       data=[{'id':1,'desc':"Il ne faut pas être <b>trop grand</b> pour marcher dans cette rue qui passe sous une maison"},
@@ -42,9 +45,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     elif self.path_info[0] == "service":
       self.send_html('<p>Path info : <code>{}</p><p>Chaîne de requête : <code>{}</code></p>' \
           .format('/'.join(self.path_info),self.query_string));
-                     
-    elif self.path_info[0] == 'time':
-      self.send_time()
+                    
+
 
     else:
       self.send_static()
@@ -63,7 +65,14 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     if self.path_info[0] == "service":
       self.send_html(('<p>Path info : <code>{}</code></p><p>Chaîne de requête : <code>{}</code></p>' \
           + '<p>Corps :</p><pre>{}</pre>').format('/'.join(self.path_info),self.query_string,self.body));
+    
+    #    envoie la date
+    elif self.path_info[0] == "toctoc":
+      self.send_html('<p>Bonjour {} {}</p>'.format(self.params['date_debut'][0],self.params['date_fin'][0]))
 
+    #    envoie la date
+    elif self.path_info[0] == "typedetemp":
+      self.send_html('<p>Bonjour {}</p>'.format(self.params['typedetemp'][0]))
     else:
       self.send_error(405)
 
