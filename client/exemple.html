@@ -18,10 +18,13 @@
   <p/>
   <!-- Zone pour l'affichage dynamique des descriptions -->
   <p id="description"></p>
-<p>date： <input type="date"></p>
+<form action="/toctoc" method="POST">
+<label for="date_debut"><span>Date debut :</span><input type="date" name="date_debut" id="date_debut"></label>
+<label for="date_fin"><span>Date fin :</span><input type="date" name="date_fin" id="date_fin"></label>
+<label><span></span><input type="submit"></label>
+</form>
  </body>
 </html>
-
 <script>
 // Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
 var map = L.map('map').setView([47.0824,2.3985], 5);
