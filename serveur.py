@@ -29,7 +29,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
       
 #    envoie la date
     elif self.path_info[0] == "toctoc":
-      self.send_html('<p>Bonjour {} {}</p>'.format(self.params['date_debut'][0],self.params['date_fin'][0]))
+      self.send_html('<p>Bonjour {} {}</p>'.format(self.params['date_debut'][0],self.params['date_fin'][0],int(self.path_info[1])))
       
     # requete description - retourne la description du lieu dont on passe l'id en paramètre dans l'URL
     elif self.path_info[0] == "description":
@@ -59,20 +59,20 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
   # méthode pour traiter les requêtes POST - non utilisée dans l'exemple
   def do_POST(self):
+    global stadid
     self.init_params()
 
     # requête générique
     if self.path_info[0] == "service":
       self.send_html(('<p>Path info : <code>{}</code></p><p>Chaîne de requête : <code>{}</code></p>' \
           + '<p>Corps :</p><pre>{}</pre>').format('/'.join(self.path_info),self.query_string,self.body));
-    
+                      
+    elif self.path_info[0] == "station":
+      stadid=int(self.path_info[1])
     #    envoie la date
     elif self.path_info[0] == "toctoc":
-      self.send_html('<p>Bonjour {} {}</p>'.format(self.params['date_debut'][0],self.params['date_fin'][0]))
+      self.send_html('<p>Bonjour {} {} {} {}</p>'.format(self.params['date_debut'][0],self.params['date_fin'][0],self.params['T_type'][0],stadid))
 
-    #    envoie la date
-    elif self.path_info[0] == "typedetemp":
-      self.send_html('<p>Bonjour {}</p>'.format(self.params['typedetemp'][0]))
     else:
       self.send_error(405)
 
@@ -126,6 +126,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     # analyse de l'adresse
     info = urlparse(self.path)
     self.path_info = info.path.split('/')[1:]
+    print(self.path_info)
     self.query_string = info.query
     self.params = parse_qs(info.query)
 

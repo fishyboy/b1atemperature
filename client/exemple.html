@@ -21,11 +21,8 @@
 <form action="/toctoc" method="POST">
 <label for="date_debut"><span>Date debut :</span><input type="date" name="date_debut" id="date_debut"></label>
 <label for="date_fin"><span>Date fin :</span><input type="date" name="date_fin" id="date_fin"></label>
-<label><span></span><input type="submit"></label>
-</form>
-<form action="/typedetemp" method="POST">
-<label for="typedetemp">Type de température : </label>
- <select name="typedetemp" id="typedetemp">
+<label for="T_type">Type de température : </label>
+ <select name="T_type" id="T_type">
   <option value="max">maximum
   <option value="moy">moyenne
   <option value="min">minimum
@@ -71,6 +68,7 @@ xhr.onload = function() {   // fonction callback
 	description.innerHTML =  '<b><i>' + e.target.getPopup().getContent() + '</i></b><br>'+ data.desc;
   };
 xhr.open('GET','/description/'+e.target.idnum,true);  // on récupère la description du lieu n° idnum par un appel au serveur
+xhr.open('POST','/station/'+e.target.idnum,true);  // on récupère la toctoc du lieu n° idnum par un appel au serveur
 xhr.send();
 }
 </script>
