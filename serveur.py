@@ -59,7 +59,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
   # méthode pour traiter les requêtes POST - non utilisée dans l'exemple
   def do_POST(self):
-    global stadid
+    global Id_station
     self.init_params()
 
     # requête générique
@@ -68,13 +68,18 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
           + '<p>Corps :</p><pre>{}</pre>').format('/'.join(self.path_info),self.query_string,self.body));
                       
     elif self.path_info[0] == "station":
-      stadid=int(self.path_info[1])
+      Id_station=int(self.path_info[1])
+      
     #    envoie la date
     elif self.path_info[0] == "toctoc":
-      self.send_html('<p>Bonjour {} {} {} {}</p>'.format(self.params['date_debut'][0],self.params['date_fin'][0],self.params['T_type'][0],stadid))
+      date_debut=self.params['date_debut'][0].split('-')
+      date_debut=int(date_debut[0]+date_debut[1]+date_debut[2])
+      date_fin=self.params['date_fin'][0].split('-')
+      date_fin=int(date_fin[0]+date_fin[1]+date_fin[2])
+      nom_image_new=tracer_courbe(Id_station,date_debut,date_fin,self.params['T_type'][0])
+      image="<img src=Courbes"+str(nom_image_new)+".png>"
+      self.send_html(image)
 
-    else:
-      self.send_error(405)
 
 
   # on envoie le document statique demandé

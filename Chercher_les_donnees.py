@@ -79,7 +79,8 @@ def tracer_courbe(Id_station, date_debut,date_fin,T_type):
     plt.xlabel("Temps (jour)")
     plt.ylabel("Température en °C)")
     plt.grid(True)
-    plt.savefig("D:\ECL\S6\informatique\Projet Application Web\TD4 projet d application web\Courbes\\"+str(new_id)+".png")
+    plt.savefig("client/Courbes"+str(new_id)+".png")
+    plt.close()
     return (new_id)
 
 #Pour avoir le nom de l'image correspondant à ce qu'on veut afficher
@@ -91,9 +92,9 @@ def nom_image(Id_station, date_debut,date_fin,T_type):
     conn.close()
     if Id==[]:
         Id=tracer_courbe(Id_station, date_debut,date_fin,T_type)
-        return (str(Id)+".png")
+        return ("Courbes/"+str(Id)+".png")
     else:
-        return (str(Id[0][0])+".png")
+        return ("Courbes/"+str(Id[0][0])+".png")
     
 #permet de déterminer si les données de température existent pour une certaine station.    
 def donnees_existantes(Id_station):
