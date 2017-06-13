@@ -153,9 +153,16 @@ def tracer_courbe_plu(Id_station, date_debut,date_fin,T_type):       #Id_station
     plt.xticks(L,tps)
     plt.xticks(rotation=45)
     plt.grid(True)
+<<<<<<< HEAD:Chercher les donnees.py
     plt.savefig("D:\ECL\S6\informatique\Projet Application Web\TD4 projet d application web\Courbes\\"+str(new_id)+".png", dpi= 100)
     return (new_id,legende)    
     
+=======
+    plt.savefig("client/Courbes"+str(new_id)+".png")
+    plt.close()
+    return (new_id)
+
+>>>>>>> 777eb1cc3b65293f3b9c2964a1c287e2a01f10bc:Chercher_les_donnees.py
 #Pour avoir le nom de l'image correspondant à ce qu'on veut afficher
 def nom_image(Id_station, date_debut,date_fin,T_type):
     conn = sqlite3.connect('graphiques.sqlite')
@@ -164,11 +171,18 @@ def nom_image(Id_station, date_debut,date_fin,T_type):
     Id=c.fetchall()
     conn.close()
     if Id==[]:
+<<<<<<< HEAD:Chercher les donnees.py
         Id_et_legende=tracer_courbe(Id_station, date_debut,date_fin,T_type)
         return (str(Id_et_legende[0])+".png",Id_et_legende[1])
     else:
         print (Id)
         return (str(Id)+".png", Id)
+=======
+        Id=tracer_courbe(Id_station, date_debut,date_fin,T_type)
+        return ("Courbes/"+str(Id)+".png")
+    else:
+        return ("Courbes/"+str(Id[0][0])+".png")
+>>>>>>> 777eb1cc3b65293f3b9c2964a1c287e2a01f10bc:Chercher_les_donnees.py
     
 #permet de déterminer si les données de température existent pour une certaine station.    
 def donnees_existantes(Id_station):
