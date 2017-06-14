@@ -64,7 +64,8 @@ def tracer_courbe(Id_station, date_debut,date_fin,T_type):
     c.execute("SELECT MAX(Id) FROM image")
     maxi_id=c.fetchall()
     new_id= maxi_id[0][0]+1
-    c.execute("INSERT INTO image VALUES ("+str(new_id)+","+str(Id_station)+",'"+T_type+"',"+str(date_debut)+ ","+str(date_fin)+")")
+
+    c.execute("INSERT INTO image VALUES ("+str(new_id)+","+str(Id_station)+",'"+T_type+"',"+str(date_debut)+","+str(date_fin)+","+str(legende)+")")
     conn.commit()
     conn.close()
     #Accès au nom de la station
@@ -79,7 +80,7 @@ def tracer_courbe(Id_station, date_debut,date_fin,T_type):
     plt.xlabel("Temps (jour)")
     plt.ylabel("Température en °C)")
     plt.grid(True)
-    plt.savefig("client/Courbes"+str(new_id)+".png")
+    plt.savefig("client/Courbes/"+Id_station+date_debut+date_fin+T_type+".png")
     plt.close()
     return (new_id)
 
