@@ -18,17 +18,17 @@
   <p/>
   <!-- Zone pour l'affichage dynamique des descriptions -->
   <p id="description"></p>
-<form action="/toctoc" method="POST">
-<label for="date_debut"><span>Date debut :</span><input type="date" name="date_debut" id="date_debut"></label>
-<label for="date_fin"><span>Date fin :</span><input type="date" name="date_fin" id="date_fin"></label>
+
+<label for="date_debut"><span>Date debut :</span><input type="date" max="2016-10-31" min="1976-01-01" name="date_debut" id="date_debut"></label>
+<label for="date_fin"><span>Date fin :</span><input type="date" max="2016-10-31" min="1976-01-01" name="date_fin" id="date_fin"></label>
 <label for="T_type">Type de température : </label>
  <select name="T_type" id="T_type">
   <option value="max">maximum
   <option value="moy">moyenne
   <option value="min">minimum
  </select>
- <input type="submit">
-</form>
+ <input type="submit" onclick="affichage_graphe()">
+    <div id="graphiques"> </div> 
  </body>
 </html>
 
@@ -40,35 +40,76 @@ var map = L.map('map').setView([47.0824,2.3985], 5);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
      }).addTo(map);
-	 
+   
 function load_data () {
 var xhr = new XMLHttpRequest();
 xhr.onload = function() {   // fonction callback
     // récupération des données renvoyées par le serveur
-	var data = JSON.parse(this.responseText);
+  var data = JSON.parse(this.responseText);
     // boucle sur les enregistrements renvoyés
     for ( n = 0; n < data.length; n++ ) {
     // insertion d'un marqueur à la position, attachement d'une popup, capture de l'évènement "clic'
-	  L.marker([data[n][2],data[n][3]]).addTo(map)
+    L.marker([data[n][2],data[n][3]]).addTo(map)
         .bindPopup('Lieu = '+data[n][1])
-		.addEventListener('click',OnMarkerClick)
-		.idnum=data[n][0];   // propriété personnalisée ajouté au marqueur
-	  }
+    .addEventListener('click',OnMarkerClick)
+    .idnum=data[n][0];   // propriété personnalisée ajouté au marqueur
+    }
   };
 xhr.open('GET','/location',true);
 xhr.send();
 }
 
+function affichage_graphe(){
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function(){
+        var infos_full = JSON.parse(this.responseText);
+        alert(infos_full)
+      }
+      xhr.open('POST','/affichercourbe/'+date_debut.value+'/'+date_fin.value+'/'+T_type.value,true);
+      xhr.send();
+
+      var good_graphique = info_affichage[0]+informations[0]+".png";
+      //document.getElementById("slider").style.visibility= "visible";
+      document.getElementById("graphiques").innerHTML = '<img src="Courbes/'+date_debut.value+date_fin.value+T_type.value+'.png">';
+
+      // permet d'arriver en bas de page lorsque le graphe s'affiche
+      $('html, body').animate({scrollTop:$(document).height()}, 'slow');
+
+
+    }
+        
 function OnMarkerClick (e) {
 var xhr = new XMLHttpRequest();
-xhr.onload = function() {   // fonction callback
+//xhr.onload = function() {   // fonction callback
     // récupération des données renvoyées par le serveur
-	var data = JSON.parse(this.responseText);
-	// affichage dans la zone 'description' du nom (reprise dans le popup) et de la description récupéré par l'appel au serveur
-	description.innerHTML =  '<b><i>' + e.target.getPopup().getContent() + '</i></b><br>'+ data.desc;
-  };
-xhr.open('GET','/description/'+e.target.idnum,true);  // on récupère la description du lieu n° idnum par un appel au serveur
-xhr.open('POST','/station/'+e.target.idnum,true);  // on récupère la toctoc du lieu n° idnum par un appel au serveur
-xhr.send();
+  //var data = JSON.parse(this.responseText);
+  // affichage dans la zone 'description' du nom (reprise dans le popup) et de la description récupéré par l'appel au serveur
+  //description.innerHTML =  '<b><i>' + e.target.getPopup().getContent() + '</i></b><br>'+ data.desc;
+  //};
+//xhr.open('GET','/description/'+e.target.idnum,true);  // on récupère la description du lieu n° idnum par un appel au serveur
+//xhr.open('POST','/station/'+e.target.idnum,true);  // on récupère la station du lieu n° idnum par un appel au serveur
+//xhr.send();
+      xhr.onload = function(){
+        var infos_full = JSON.parse(this.responseText);
+        alert(infos_full)
+
+        document.getElementById("graphiques").innerHTML = '<img src="Courbes/graphique.png">';
+
+      }
+
+      xhr.open('POST','/affichercourbe/'+date_debut.value+'/'+date_fin.value+'/'+T_type.value+'/'+e.target.idnum,true);
+      xhr.send();
+      document.getElementById("graphiques").innerHTML = '<img src="Courbes/'+e.target.idnum+date_debut.value+date_fin.value+T_type.value+'.png">'
+      //var good_graphique = info_affichage[0]+informations[0]+".png";
+      //document.getElementById("slider").style.visibility= "visible";
+      //document.getElementById("graphiques").innerHTML = '<img src="Courbes/'+e.target.idnum+date_debut.value+date_fin.value+T_type.value+'.png">';
+
+      // permet d'arriver en bas de page lorsque le graphe s'affiche
+      $('html, body').animate({scrollTop:$(document).height()}, 'slow');
+
 }
 </script>
+<div id="affichage">
+    <div id="graphiques"> </div> 
+    <div id="slider"></div>
+</div>
