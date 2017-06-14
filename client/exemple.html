@@ -40,20 +40,20 @@ var map = L.map('map').setView([47.0824,2.3985], 5);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
      }).addTo(map);
-	 
+   
 function load_data () {
 var xhr = new XMLHttpRequest();
 xhr.onload = function() {   // fonction callback
     // récupération des données renvoyées par le serveur
-	var data = JSON.parse(this.responseText);
+  var data = JSON.parse(this.responseText);
     // boucle sur les enregistrements renvoyés
     for ( n = 0; n < data.length; n++ ) {
     // insertion d'un marqueur à la position, attachement d'une popup, capture de l'évènement "clic'
-	  L.marker([data[n][2],data[n][3]]).addTo(map)
+    L.marker([data[n][2],data[n][3]]).addTo(map)
         .bindPopup('Lieu = '+data[n][1])
-		.addEventListener('click',OnMarkerClick)
-		.idnum=data[n][0];   // propriété personnalisée ajouté au marqueur
-	  }
+    .addEventListener('click',OnMarkerClick)
+    .idnum=data[n][0];   // propriété personnalisée ajouté au marqueur
+    }
   };
 xhr.open('GET','/location',true);
 xhr.send();
@@ -82,9 +82,15 @@ function OnMarkerClick (e) {
 var xhr = new XMLHttpRequest();
 //xhr.onload = function() {   // fonction callback
     // récupération des données renvoyées par le serveur
+<<<<<<< HEAD
 	//var data = JSON.parse(this.responseText);
 	// affichage dans la zone 'description' du nom (reprise dans le popup) et de la description récupéré par l'appel au serveur
 	//description.innerHTML =  '<b><i>' + e.target.getPopup().getContent() + '</i></b><br>'+ data.desc;
+=======
+  //var data = JSON.parse(this.responseText);
+  // affichage dans la zone 'description' du nom (reprise dans le popup) et de la description récupéré par l'appel au serveur
+  //description.innerHTML =  '<b><i>' + e.target.getPopup().getContent() + '</i></b><br>'+ data.desc;
+>>>>>>> refs/remotes/origin/master
   //};
 //xhr.open('GET','/description/'+e.target.idnum,true);  // on récupère la description du lieu n° idnum par un appel au serveur
 //xhr.open('POST','/station/'+e.target.idnum,true);  // on récupère la station du lieu n° idnum par un appel au serveur
