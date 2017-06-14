@@ -80,21 +80,7 @@ function affichage_graphe(){
         
 function OnMarkerClick (e) {
 var xhr = new XMLHttpRequest();
-//xhr.onload = function() {   // fonction callback
-    // récupération des données renvoyées par le serveur
-<<<<<<< HEAD
-	//var data = JSON.parse(this.responseText);
-	// affichage dans la zone 'description' du nom (reprise dans le popup) et de la description récupéré par l'appel au serveur
-	//description.innerHTML =  '<b><i>' + e.target.getPopup().getContent() + '</i></b><br>'+ data.desc;
-=======
-  //var data = JSON.parse(this.responseText);
-  // affichage dans la zone 'description' du nom (reprise dans le popup) et de la description récupéré par l'appel au serveur
-  //description.innerHTML =  '<b><i>' + e.target.getPopup().getContent() + '</i></b><br>'+ data.desc;
->>>>>>> refs/remotes/origin/master
-  //};
-//xhr.open('GET','/description/'+e.target.idnum,true);  // on récupère la description du lieu n° idnum par un appel au serveur
-//xhr.open('POST','/station/'+e.target.idnum,true);  // on récupère la station du lieu n° idnum par un appel au serveur
-//xhr.send();
+
       xhr.onload = function(){
         var infos_full = JSON.parse(this.responseText);
         alert(infos_full)
@@ -106,12 +92,6 @@ var xhr = new XMLHttpRequest();
       xhr.open('POST','/affichercourbe/'+date_debut.value+'/'+date_fin.value+'/'+T_type.value+'/'+e.target.idnum,true);
       xhr.send();
       document.getElementById("graphiques").innerHTML = '<img src="Courbes/'+e.target.idnum+date_debut.value+date_fin.value+T_type.value+'.png">'
-      //var good_graphique = info_affichage[0]+informations[0]+".png";
-      //document.getElementById("slider").style.visibility= "visible";
-      //document.getElementById("graphiques").innerHTML = '<img src="Courbes/'+e.target.idnum+date_debut.value+date_fin.value+T_type.value+'.png">';
-
-      // permet d'arriver en bas de page lorsque le graphe s'affiche
-      $('html, body').animate({scrollTop:$(document).height()}, 'slow');
 
 }
 </script>
