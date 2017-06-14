@@ -69,13 +69,17 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
     #    envoie la date
     elif self.path_info[0] == "affichercourbe":
+      dds=self.path_info[1]
+      dfs=self.path_info[2]
       date_debut=self.path_info[1].split('-')
       date_debut=int(date_debut[0]+date_debut[1]+date_debut[2])
       date_fin=self.path_info[2].split('-')
       date_fin=int(date_fin[0]+date_fin[1]+date_fin[2])
       Id_station=self.path_info[4]
       T_type=self.path_info[3]
-      tracer_courbe(Id_station,date_debut,date_fin,T_type)
+      courbe=tracer_courbe(Id_station,date_debut,date_fin,T_type,dds,dfs)
+      ID=courbe[0]
+      legende=courbe[1]
 
 
 
