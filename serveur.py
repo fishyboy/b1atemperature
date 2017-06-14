@@ -59,7 +59,6 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
   # méthode pour traiter les requêtes POST - non utilisée dans l'exemple
   def do_POST(self):
-    global stadid
     self.init_params()
 
     # requête générique
@@ -67,14 +66,21 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
       self.send_html(('<p>Path info : <code>{}</code></p><p>Chaîne de requête : <code>{}</code></p>' \
           + '<p>Corps :</p><pre>{}</pre>').format('/'.join(self.path_info),self.query_string,self.body));
                       
-    elif self.path_info[0] == "station":
-      stadid=int(self.path_info[1])
-    #    envoie la date
-    elif self.path_info[0] == "toctoc":
-      self.send_html('<p>Bonjour {} {} {} {}</p>'.format(self.params['date_debut'][0],self.params['date_fin'][0],self.params['T_type'][0],stadid))
 
-    else:
-      self.send_error(405)
+    #    envoie la date
+    elif self.path_info[0] == "affichercourbe":
+      dds=self.path_info[1]
+      dfs=self.path_info[2]
+      date_debut=self.path_info[1].split('-')
+      date_debut=int(date_debut[0]+date_debut[1]+date_debut[2])
+      date_fin=self.path_info[2].split('-')
+      date_fin=int(date_fin[0]+date_fin[1]+date_fin[2])
+      Id_station=self.path_info[4]
+      T_type=self.path_info[3]
+      courbe=tracer_courbe(Id_station,date_debut,date_fin,T_type,dds,dfs)
+      ID=courbe[0]
+      legende=courbe[1]
+
 
 
   # on envoie le document statique demandé
